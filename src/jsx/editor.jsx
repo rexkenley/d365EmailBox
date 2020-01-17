@@ -12,9 +12,12 @@ import {
   PrimaryButton,
   DefaultButton
 } from "office-ui-fabric-react/lib/Button";
+import { Modal } from "office-ui-fabric-react";
 
+/*
 import { setTemplate } from "../js/store";
 import getCBItems from "../js/editorCommandBar";
+*/
 
 import TinyEditor from "./tinyMCE";
 
@@ -22,7 +25,36 @@ import TinyEditor from "./tinyMCE";
  * @module editor
  */
 
-const tinyEditor = React.createRef(),
+const emailEditor = React.createRef(),
+  templateEditor = React.createRef(),
+  EmailEditor = props => {
+    const { description, isControlDisabled, onDescriptionChange } = props,
+      [templateOpen, setTemplateOpen] = useState(false);
+
+    return (
+      <Fabric>
+        <TinyEditor
+          ref={emailEditor}
+          initialValue={description}
+          disabled={isControlDisabled}
+          onEditorChange={onDescriptionChange}
+          onTemplatesAction={() => {
+            setTemplateOpen(true);
+          }}
+        />
+        <Modal
+          isOpen={templateOpen}
+          onDismiss={setTemplateOpen(false)}
+          isBlocking={false}
+        >
+          <TinyEditor ref={templateEditor} />
+        </Modal>
+      </Fabric>
+    );
+  };
+
+/*
+
   Editor = () => {
     const [templateName, setTemplateName] = useState(""),
       dispatch = useDispatch(),
@@ -86,5 +118,6 @@ const tinyEditor = React.createRef(),
       </Fabric>
     );
   };
+*/
 
-export default Editor;
+export default EmailEditor;

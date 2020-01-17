@@ -1,9 +1,6 @@
 import React from "react";
 import "tinymce/tinymce";
 import "tinymce/themes/silver/theme";
-import "tinymce/skins/ui/oxide/skin.min.css";
-import "tinymce/skins/ui/oxide/content.min.css";
-import "tinymce/skins/content/default/content.css";
 import "tinymce/plugins/visualchars/index";
 import "tinymce/plugins/visualblocks/index";
 import "tinymce/plugins/image/index";
@@ -25,8 +22,13 @@ import { Editor } from "@tinymce/tinymce-react";
  * @module tinyMCE
  */
 
+/**
+ * TinyEditor
+ *
+ *
+ */
 const TinyEditor = React.forwardRef((props, ref) => {
-  const { disabled } = props,
+  const { initialValue, disabled, onEditorChange, onTemplatesAction } = props,
     editorHeight = window.innerHeight - 80,
     fpCB = cb => {
       const input = document.createElement("input");
@@ -51,45 +53,56 @@ const TinyEditor = React.forwardRef((props, ref) => {
       };
 
       input.click();
+    },
+    menu = {
+      file: {
+        title: "File",
+        items: "newdocument"
+      },
+      edit: {
+        title: "Edit",
+        items: "undo redo | cut copy paste | selectall | searchreplace"
+      },
+      view: {
+        title: "View",
+        items: "visualaid visualchars visualblocks"
+      },
+      insert: {
+        title: "Insert",
+        items: `image link media codesample | charmap emoticons hr ${
+          onTemplatesAction ? "templates" : ""
+        }`.trim()
+      },
+      format: {
+        title: "Format",
+        items:
+          "bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat"
+      },
+      table: {
+        title: "Table",
+        items: "inserttable tableprops deletetable row column cell"
+      },
+      help: { title: "Help", items: "help" }
     };
 
   return (
     <Editor
       ref={ref}
       disabled={disabled}
+      initialValue={initialValue}
+      onEditorChange={onEditorChange}
       init={{
+        menu,
+        setup: function(editor) {
+          editor.ui.registry.addMenuItem("templates", {
+            text: "Templates",
+            onAction: onTemplatesAction
+          });
+        },
         skin: false,
         content_css: false,
         plugins:
           "autoresize, searchreplace, visualchars, visualblocks, image, imagetools, link, media, codesample, charmap, emoticons, hr, table, help",
-        menu: {
-          file: {
-            title: "File",
-            items: "newdocument"
-          },
-          edit: {
-            title: "Edit",
-            items: "undo redo | cut copy paste | selectall | searchreplace"
-          },
-          view: {
-            title: "View",
-            items: "visualaid visualchars visualblocks"
-          },
-          insert: {
-            title: "Insert",
-            items: "image link media codesample | charmap emoticons hr"
-          },
-          format: {
-            title: "Format",
-            items:
-              "bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat"
-          },
-          table: {
-            title: "Table",
-            items: "inserttable tableprops deletetable row column cell"
-          },
-          help: { title: "Help", items: "help" }
-        },
         autoresize_on_init: true,
         autoresize_bottom_margin: 80,
         max_height: editorHeight,
