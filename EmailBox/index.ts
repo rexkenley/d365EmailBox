@@ -2,8 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
-import EmailEditor from "./../src/jsx/editor";
-import { timingSafeEqual } from "crypto";
+import EmailEditor from "../src/jsx/editor";
 
 export class EmailBox
   implements ComponentFramework.StandardControl<IInputs, IOutputs> {

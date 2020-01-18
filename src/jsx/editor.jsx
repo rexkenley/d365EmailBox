@@ -44,7 +44,9 @@ const emailEditor = React.createRef(),
         />
         <Modal
           isOpen={templateOpen}
-          onDismiss={setTemplateOpen(false)}
+          onDismiss={() => {
+            setTemplateOpen(false);
+          }}
           isBlocking={false}
         >
           <TinyEditor ref={templateEditor} />

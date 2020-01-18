@@ -30,6 +30,7 @@ import { Editor } from "@tinymce/tinymce-react";
 const TinyEditor = React.forwardRef((props, ref) => {
   const { initialValue, disabled, onEditorChange, onTemplatesAction } = props,
     editorHeight = window.innerHeight - 80,
+    editorWidth = window.innerWidth - 80,
     fpCB = cb => {
       const input = document.createElement("input");
       input.setAttribute("type", "file");
@@ -99,6 +100,7 @@ const TinyEditor = React.forwardRef((props, ref) => {
             onAction: onTemplatesAction
           });
         },
+
         skin: false,
         content_css: false,
         plugins:
@@ -107,6 +109,7 @@ const TinyEditor = React.forwardRef((props, ref) => {
         autoresize_bottom_margin: 80,
         max_height: editorHeight,
         min_height: editorHeight,
+        min_width: editorWidth,
         automatic_uploads: true,
         image_advtab: true,
         image_title: true,
