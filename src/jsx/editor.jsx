@@ -13,6 +13,7 @@ import {
   DefaultButton
 } from "office-ui-fabric-react/lib/Button";
 import { Modal } from "office-ui-fabric-react";
+import EmailEditor from "react-email-editor";
 
 /*
 import { setTemplate } from "../js/store";
@@ -25,32 +26,24 @@ import TinyEditor from "./tinyMCE";
  * @module editor
  */
 
-const emailEditor = React.createRef(),
-  templateEditor = React.createRef(),
-  EmailEditor = props => {
-    const { description, isControlDisabled, onDescriptionChange } = props,
+const editor = React.createRef(),
+  Editor = props => {
+    const { content, isControlDisabled, onContentChange, isTemplate } = props,
       [templateOpen, setTemplateOpen] = useState(false);
 
     return (
       <Fabric>
-        <TinyEditor
-          ref={emailEditor}
-          initialValue={description}
-          disabled={isControlDisabled}
-          onEditorChange={onDescriptionChange}
-          onTemplatesAction={() => {
-            setTemplateOpen(true);
-          }}
-        />
-        <Modal
-          isOpen={templateOpen}
-          onDismiss={() => {
-            setTemplateOpen(false);
-          }}
-          isBlocking={false}
-        >
-          <TinyEditor ref={templateEditor} />
-        </Modal>
+        {(isTemplate && <EmailEditor ref={editor} />) || (
+          <TinyEditor
+            ref={editor}
+            initialValue={content}
+            disabled={isControlDisabled}
+            onEditorChange={onContentChange}
+            onTemplatesAction={() => {
+              setTemplateOpen(true);
+            }}
+          />
+        )}
       </Fabric>
     );
   };
@@ -122,4 +115,4 @@ const emailEditor = React.createRef(),
   };
 */
 
-export default EmailEditor;
+export default Editor;
