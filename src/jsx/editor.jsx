@@ -12,14 +12,14 @@ import {
   PrimaryButton,
   DefaultButton
 } from "office-ui-fabric-react/lib/Button";
-import { Modal } from "office-ui-fabric-react";
-import EmailEditor from "react-email-editor";
+import { Modal, initializeComponentRef } from "office-ui-fabric-react";
 
 /*
 import { setTemplate } from "../js/store";
 import getCBItems from "../js/editorCommandBar";
 */
 
+import UnlayerEditor from "./unlayer";
 import TinyEditor from "./tinyMCE";
 
 /**
@@ -28,12 +28,23 @@ import TinyEditor from "./tinyMCE";
 
 const editor = React.createRef(),
   Editor = props => {
-    const { content, isControlDisabled, onContentChange, isTemplate } = props,
-      [templateOpen, setTemplateOpen] = useState(false);
+    const {
+      content,
+      isControlDisabled,
+      onContentChange,
+      isTemplate,
+      onTemplateSave
+    } = props;
 
     return (
       <Fabric>
-        {(isTemplate && <EmailEditor ref={editor} />) || (
+        {(isTemplate && (
+          <UnlayerEditor
+            ref={editor}
+            design={content}
+            onSave={onTemplateSave}
+          />
+        )) || (
           <TinyEditor
             ref={editor}
             initialValue={content}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import "tinymce/tinymce";
 import "tinymce/themes/silver/theme";
 import "tinymce/plugins/visualchars/index";
@@ -23,7 +23,7 @@ import get from "lodash/get";
  * @module tinyMCE
  */
 
-const TinyEditor = React.forwardRef((props, ref) => {
+const TinyEditor = forwardRef((props, ref) => {
   // @ts-ignore
   const { disabled, initialValue, onHTMLChange } = props,
     editorHeight = window.innerHeight - 80,
@@ -53,6 +53,36 @@ const TinyEditor = React.forwardRef((props, ref) => {
       };
 
       input.click();
+    },
+    plugins =
+      "autoresize, searchreplace, visualchars, visualblocks, image, imagetools, link, media, codesample, charmap, emoticons, hr, table, help",
+    menu = {
+      file: {
+        title: "File",
+        items: "newdocument"
+      },
+      edit: {
+        title: "Edit",
+        items: "undo redo | cut copy paste | selectall | searchreplace"
+      },
+      view: {
+        title: "View",
+        items: "visualaid visualchars visualblocks"
+      },
+      insert: {
+        title: "Insert",
+        items: "image link media codesample | charmap emoticons hr"
+      },
+      format: {
+        title: "Format",
+        items:
+          "bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat"
+      },
+      table: {
+        title: "Table",
+        items: "inserttable tableprops deletetable row column cell"
+      },
+      help: { title: "Help", items: "help" }
     };
 
   return (
@@ -62,38 +92,10 @@ const TinyEditor = React.forwardRef((props, ref) => {
       initialValue={initialValue}
       onEditorChange={onHTMLChange}
       init={{
+        plugins,
+        menu,
         skin: false,
         content_css: false,
-        plugins:
-          "autoresize, searchreplace, visualchars, visualblocks, image, imagetools, link, media, codesample, charmap, emoticons, hr, table, help",
-        menu: {
-          file: {
-            title: "File",
-            items: "newdocument"
-          },
-          edit: {
-            title: "Edit",
-            items: "undo redo | cut copy paste | selectall | searchreplace"
-          },
-          view: {
-            title: "View",
-            items: "visualaid visualchars visualblocks"
-          },
-          insert: {
-            title: "Insert",
-            items: "image link media codesample | charmap emoticons hr"
-          },
-          format: {
-            title: "Format",
-            items:
-              "bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat"
-          },
-          table: {
-            title: "Table",
-            items: "inserttable tableprops deletetable row column cell"
-          },
-          help: { title: "Help", items: "help" }
-        },
         autoresize_on_init: true,
         autoresize_bottom_margin: 80,
         max_height: editorHeight,
