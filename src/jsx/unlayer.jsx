@@ -7,54 +7,60 @@ import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
  * @module unlayer
  */
 
-const UnlayerEditor = forwardRef((props, ref) => {
-  const { design, onSave } = props,
-    newDesign = { body: { rows: [] } },
-    cbItems = [
+const newDesign = { body: { rows: [] } },
+  getCBItems = (ref, meta, onTemplateChange) => {
+    const items = [
       {
-        key: "newTemplate",
-        text: "New Template",
+        key: "new",
+        text: "New",
         iconProps: { iconName: "WebTemplate" },
         onClick: () => {
           ref.current && ref.current.loadDesign(newDesign);
         }
-      },
-      {
-        key: "entity",
-        text: "Entity",
-        canCheck: true,
-        checked: true,
-        iconProps: { iconName: "QuickNote" },
-        onClick: () => {}
-      },
-      {
-        key: "save",
-        text: "Save",
-        onClick: () => {
-          ref.current &&
-            ref.current.exportHtml(data => {
-              const { design, html } = data;
-              onSave && onSave({ design, html });
-            });
-        }
       }
     ];
 
-  return (
-    <Fabric>
-      <CommandBar items={cbItems} />
-      <EmailEditor
-        ref={ref}
-        options={{}}
-        tools={{}}
-        onLoad={() => {
-          design && ref.current && ref.current.loadDesign(design);
-        }}
-        onDesignLoad={data => {}}
-      />
-    </Fabric>
-  );
-});
+    items.push({
+      key: "save",
+      text: "Save",
+      onClick: () => {
+        ref.current &&
+          ref.current.exportHtml(data => {
+            const { design, html } = data;
+            onTemplateChange && onTemplateChange({ design, html });
+          });
+      }
+    });
+
+    return items;
+  },
+  getMergeTags = () => {
+    //https://docs.unlayer.com/docs/merge-tags
+    return { name: { name: "Name", value: "{{name}}" } };
+  },
+  UnlayerEditor = forwardRef((props, ref) => {
+    const { design, meta, onTemplateChange } = props;
+
+    return (
+      <Fabric>
+        <CommandBar items={getCBItems(ref, meta, onTemplateChange)} />
+        <EmailEditor
+          ref={ref}
+          options={{}}
+          tools={{}}
+          onLoad={() => {
+            const { current } = ref;
+
+            if (!current) return;
+
+            meta && current.setMergeTags(getMergeTags(meta));
+            current.loadDesign(design || newDesign);
+          }}
+          onDesignLoad={data => {}}
+        />
+      </Fabric>
+    );
+  });
 
 /**
  * @exports tinyMCE/UnlayerEditor

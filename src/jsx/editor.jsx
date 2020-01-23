@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Fabric } from "office-ui-fabric-react/lib/Fabric";
-import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
 import {
   Dialog,
   DialogType,
   DialogFooter
 } from "office-ui-fabric-react/lib/Dialog";
-import { TextField } from "office-ui-fabric-react/lib/TextField";
 import {
   PrimaryButton,
   DefaultButton
 } from "office-ui-fabric-react/lib/Button";
-import { Modal, initializeComponentRef } from "office-ui-fabric-react";
+import { initializeIcons } from "@uifabric/icons";
 
 /*
 import { setTemplate } from "../js/store";
@@ -26,14 +24,16 @@ import TinyEditor from "./tinyMCE";
  * @module editor
  */
 
+initializeIcons();
+
 const editor = React.createRef(),
   Editor = props => {
     const {
       content,
-      isControlDisabled,
+      isDisabled,
       onContentChange,
       isTemplate,
-      onTemplateSave
+      templates
     } = props;
 
     return (
@@ -42,17 +42,16 @@ const editor = React.createRef(),
           <UnlayerEditor
             ref={editor}
             design={content}
-            onSave={onTemplateSave}
+            meta={null}
+            onTemplateChange={onContentChange}
           />
         )) || (
           <TinyEditor
             ref={editor}
             initialValue={content}
-            disabled={isControlDisabled}
+            disabled={isDisabled}
+            templates={templates}
             onEditorChange={onContentChange}
-            onTemplatesAction={() => {
-              setTemplateOpen(true);
-            }}
           />
         )}
       </Fabric>

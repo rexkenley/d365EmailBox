@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
-import EmailEditor from "../src/jsx/editor";
+import Editor from "../src/jsx/editor";
 
 export class EmailBox
   implements ComponentFramework.StandardControl<IInputs, IOutputs> {
@@ -46,11 +46,12 @@ export class EmailBox
     if (!isVisible) return;
 
     ReactDOM.render(
-      React.createElement(EmailEditor, {
+      React.createElement(Editor, {
         // @ts-ignore
-        description: this.current,
-        isControlDisabled: this.isControlDisabled,
-        onDescriptionChange: (content, editor) => {
+        content: this.current,
+        isDisabled: this.isControlDisabled,
+        isTemplate: false,
+        onContentChange: content => {
           this.current = content;
           this.updatedByReact = true;
           this.notifyOutputChanged();
@@ -76,11 +77,12 @@ export class EmailBox
       this.isControlDisabled = isControlDisabled;
 
       ReactDOM.render(
-        React.createElement(EmailEditor, {
+        React.createElement(Editor, {
           // @ts-ignore
-          description: this.current,
-          isControlDisabled: this.isControlDisabled,
-          onDescriptionChange: (content, editor) => {
+          content: this.current,
+          isDisabled: this.isControlDisabled,
+          isTemplate: false,
+          onContentChange: content => {
             this.current = content;
             this.updatedByReact = true;
             this.notifyOutputChanged();

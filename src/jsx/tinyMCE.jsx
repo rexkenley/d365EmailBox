@@ -25,7 +25,7 @@ import get from "lodash/get";
 
 const TinyEditor = forwardRef((props, ref) => {
   // @ts-ignore
-  const { disabled, initialValue, onHTMLChange } = props,
+  const { initialValue, disabled, templates, onEditorChange } = props,
     editorHeight = window.innerHeight - 80,
     fpCB = cb => {
       const input = document.createElement("input");
@@ -71,7 +71,9 @@ const TinyEditor = forwardRef((props, ref) => {
       },
       insert: {
         title: "Insert",
-        items: "image link media codesample | charmap emoticons hr"
+        items: `image link media codesample | charmap emoticons hr ${
+          templates ? "templates" : ""
+        }`.trim()
       },
       format: {
         title: "Format",
@@ -90,8 +92,17 @@ const TinyEditor = forwardRef((props, ref) => {
       ref={ref}
       disabled={disabled}
       initialValue={initialValue}
-      onEditorChange={onHTMLChange}
+      onEditorChange={onEditorChange}
       init={{
+        setup: function(editor) {
+          editor.ui.registry.addNestedMenuItem("templates", {
+            text: "Templates",
+            getSubmenuItems: () => {
+              if (!templates) return [];
+              return templates.map(t => ({ ...t, type: "menuitem" }));
+            }
+          });
+        },
         plugins,
         menu,
         skin: false,
