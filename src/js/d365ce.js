@@ -7,6 +7,22 @@ import isUUID from "validator/lib/isUUID";
  */
 
 /**
+ * @typedef {Object} MetaAttribute
+ * @property {string} metadataId
+ * @property {string} displayName
+ * @property {string} logicalName
+ * @property {string} attributeType
+ */
+
+/**
+ * @typedef {Object} MetaEntity
+ * @property {string} metadataId
+ * @property {string} displayName
+ * @property {string} entitySetName
+ * @property {MetaAttribute[]} attributes
+ */
+
+/**
  * d365 is v9
  * @const {boolean}
  */
@@ -23,22 +39,6 @@ const { getClientUrl } = isV9
     "Content-Type": "application/json; charset=utf-8",
     Prefer: `odata.include-annotations="*"` // eslint-disable-line
   };
-
-/**
- * @typedef {Object} MetaAttribute
- * @property {string} metadataId
- * @property {string} displayName
- * @property {string} logicalName
- * @property {string} attributeType
- */
-
-/**
- * @typedef {Object} MetaEntity
- * @property {string} metadataId
- * @property {string} displayName
- * @property {string} entitySetName
- * @property {MetaAttribute[]} attributes
- */
 
 /**
  * Gets the metadata of the listed entities

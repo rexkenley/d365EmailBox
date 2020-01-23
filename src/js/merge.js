@@ -1,7 +1,4 @@
-import Handlebars from "handlebars";
-import HandlebarsIntl from "handlebars-intl";
-
-HandlebarsIntl.registerWith(Handlebars);
+import nunjucks from "nunjucks";
 
 /**
  * @module merge
@@ -17,7 +14,7 @@ HandlebarsIntl.registerWith(Handlebars);
 export default function merge(source, data) {
   if (!source || !data) return "";
 
-  const template = Handlebars.compile(source);
+  const template = nunjucks.compile(source);
 
-  return template(data);
+  return template.render(data);
 }

@@ -33,7 +33,8 @@ const editor = React.createRef(),
       isDisabled,
       onContentChange,
       isTemplate,
-      templates
+      templates,
+      meta
     } = props;
 
     return (
@@ -42,7 +43,7 @@ const editor = React.createRef(),
           <UnlayerEditor
             ref={editor}
             design={content}
-            meta={null}
+            meta={meta}
             onTemplateChange={onContentChange}
           />
         )) || (

@@ -34,9 +34,21 @@ const newDesign = { body: { rows: [] } },
 
     return items;
   },
-  getMergeTags = () => {
+  getMergeTags = meta => {
     //https://docs.unlayer.com/docs/merge-tags
-    return { name: { name: "Name", value: "{{name}}" } };
+    //{ name: { name: "Name", value: "{{name}}" } }
+    if (!meta) return {};
+
+    let mergeTags = {};
+
+    meta.attributes.forEach(a => {
+      mergeTags[a.logicalName] = {
+        name: a.displayName,
+        value: `{{${a.logicalName}}}`
+      };
+    });
+
+    return mergeTags;
   },
   UnlayerEditor = forwardRef((props, ref) => {
     const { design, meta, onTemplateChange } = props;
@@ -49,12 +61,10 @@ const newDesign = { body: { rows: [] } },
           options={{}}
           tools={{}}
           onLoad={() => {
-            const { current } = ref;
+            if (!ref.current) return;
 
-            if (!current) return;
-
-            meta && current.setMergeTags(getMergeTags(meta));
-            current.loadDesign(design || newDesign);
+            meta && ref.current.setMergeTags(getMergeTags(meta));
+            ref.current.loadDesign(design || newDesign);
           }}
           onDesignLoad={data => {}}
         />
