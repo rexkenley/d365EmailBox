@@ -26,16 +26,18 @@ storiesOf("Editor", module)
   .add("with props isTemplate", () => <Editor isTemplate={true} />)
   .add("with props isTemplate, content, meta and onContentChange", () => {
     const meta = {
-      id: "entityId",
-      displayName: "TestEntity",
-      entitySetName: "TestEntities",
-      attributes: [
-        {
-          id: "attributeId",
-          displayName: "TestAttribute",
-          logicalName: "TestLogical"
-        }
-      ]
+      test: {
+        id: "entityId",
+        displayName: "TestEntity",
+        entitySetName: "TestEntities",
+        attributes: [
+          {
+            id: "attributeId",
+            displayName: "TestAttribute",
+            logicalName: "TestLogical"
+          }
+        ]
+      }
     };
 
     return (

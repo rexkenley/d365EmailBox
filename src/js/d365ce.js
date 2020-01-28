@@ -22,6 +22,8 @@ import isUUID from "validator/lib/isUUID";
  * @property {MetaAttribute[]} attributes
  */
 
+//https://docs.microsoft.com/en-us/powerapps/developer/component-framework/reference/utility/getentitymetadata
+
 /**
  * d365 is v9
  * @const {boolean}
