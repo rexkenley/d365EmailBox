@@ -2,6 +2,7 @@
   "name": "pcf-project",
   "version": "1.0.0",
   "description": "A pcf control that would allow HTML emails with a built in email templates feature",
+  "author": "Rex Kenley Tan",
   "scripts": {
     "storybook": "start-storybook",
     "lint": "eslint --ext .jsx,.js src/",
