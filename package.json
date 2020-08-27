@@ -23,7 +23,7 @@
     "@types/node": "^10.12.18",
     "@types/powerapps-component-framework": "^1.2.0",
     "@uifabric/icons": "^7.3.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.17",
     "nunjucks": "^3.2.0",
     "office-ui-fabric-react": "^7.84.0",
     "react": "^16.12.0",
